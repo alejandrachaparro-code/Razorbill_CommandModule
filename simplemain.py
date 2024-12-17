@@ -27,8 +27,8 @@ assert len(VAS) == len(VBS)
 rm = ResourceManager()
 
 #use check resources to confirm the port ID of each intrument (USB port ID for the Razorbill ~sparky~ is likely to change)
-sparky_port = "ASRL10::INSTR"
-andy_port = "GPIB::28::INSTR" 
+sparky_port = "ASRL3::INSTR"
+andy_port = "GPIB0::28::INSTR" 
 
 def withinpercent(a, b, p = 1):
     if int(a) == 0 or int(b) == 0:
