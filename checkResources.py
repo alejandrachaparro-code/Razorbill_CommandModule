@@ -8,8 +8,8 @@ print(rm.list_resources())
 
 
 
-inst = rm.open_resource('ASRL10::INSTR')
-insta = rm.open_resource("GPIB::28::INSTR")
+inst = rm.open_resource('ASRL3::INSTR')
+insta = rm.open_resource("GPIB0::28::INSTR")
 
 print("razorbill:")
 print(inst.query("*IDN?"))
