@@ -17,8 +17,8 @@ VAS   = np.array([0, 50, 100, 150, 175]) # Voltages on CH1 Tension
 VBS   = np.array([25, 25, 25, 25, 25])    # Zeros on CH2 Compression
 FIELD = (-90_000, 90_000, 50)  # -9T to 9T at 50 Oe/sec?
 
-QD_FILES = r"C:/Users/sysadmin/Desktop/Razorbill-WilsonGroup/Sarah/"
-#QD_FILES = r"C:/Users/dynacool2 user/Desktop/Razorbill-WilsonGroup/Sarah/"
+#QD_FILES = r"C:/Users/sysadmin/Desktop/Razorbill-WilsonGroup/Sarah/"
+QD_FILES = r"C:/Users/dynacool2 user/Desktop/Razorbill-WilsonGroup/Sarah/"
 QD_FILE = max(glob.glob(QD_FILES+"*.dat"), key=os.path.getctime)
 print("Using File:", QD_FILE)
 
@@ -27,8 +27,8 @@ assert len(VAS) == len(VBS)
 rm = ResourceManager()
 
 #use check resources to confirm the port ID of each intrument (USB port ID for the Razorbill ~sparky~ is likely to change)
-sparky_port = "ASRL8::INSTR"
-andy_port = "GPIB0::28::INSTR" 
+sparky_port = "ASRL11::INSTR"
+andy_port = "GPIB0::28::INSTR"
 
 def withinpercent(a, b, p = 1):
     if int(a) == 0 or int(b) == 0:
