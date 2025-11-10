@@ -81,7 +81,7 @@ class Sparky:
         self.sparky.write("sour2:volt 0")
         self.sparky.write("outp2 0")
 
-
+#capacitance bridge
 class Andy:
     def __init__(self, rm, label=andy_port):
         self.andy = rm.open_resource(label)
@@ -104,7 +104,7 @@ class QDButNotAwful:
 
     def get_temp(self):
         return self.qd.temp
-
+        
     def wait_temp(self, t):
         self.set_temp(t)
         while True:
@@ -112,6 +112,16 @@ class QDButNotAwful:
             if withinpercent(t, self.get_temp()) and self.qd.temp_status == "Stable":
                 break
 
+    def ramp_temp(self, start, stop, rate):
+        self.wait_temp(start)
+        self.qd.set.temp(stop, rate, 0)
+        while True:
+            time.sleep(self.fsleep)
+            if self.qd.temp_status in ["Tracking", "Chasing"]:
+                break
+    def rampT_complete(self):
+        return self.qd.temp_status in ["Stable", "Near"]
+        
     def set_field(self, f):
         self.qd.set.field(f, self.framp_max, 0, 1)
         
