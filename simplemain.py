@@ -12,10 +12,10 @@ from pyvisa import ResourceManager
 
 TRANSITION_TEMP = 30           # Warm to this with zero field, zero voltage
 
-TEMPS = [30, 10, 5, 2] # Just one temp, 30K
-VAS   = np.array([0, 50, 100, 150, 175]) # Voltages on CH1 Tension
-VBS   = np.array([25, 25, 25, 25, 25])    # Zeros on CH2 Compression
-FIELD = (-90_000, 90_000, 50)  # -9T to 9T at 50 Oe/sec?
+TEMPS = [10, 5, 2] # Just one temp
+VAS   = np.array([0, 25, 50, 100, 150, 175]) # Voltages on CH1 Tension
+VBS   = np.array([25, 25, 25, 25, 25, 25])    # Zeros on CH2 Compression
+FIELD = (-90_000, 90_000, 40)  # -9T to 9T at 40 Oe/sec?
 
 #QD_FILES = r"C:/Users/sysadmin/Desktop/Razorbill-WilsonGroup/Sarah/"
 QD_FILES = r"C:/Users/dynacool2 user/Desktop/Razorbill-WilsonGroup/Sarah/"
