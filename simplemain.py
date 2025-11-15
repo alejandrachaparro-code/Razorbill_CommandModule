@@ -4,23 +4,28 @@ import os
 import glob
 
 import numpy as np
+import argparse
 
 from dataclasses import dataclass
 from QDInst import QDInstrument
 from pyvisa import ResourceManager
 
+parser = argparse.ArgumentParser()
 
-TRANSITION_TEMP = 30           # Warm to this with zero field, zero voltage
+parser.add_argument("TRANSITION_TEMP", help ="Transition temperature", type = float)          # Warm to this with zero field, zero voltage
+parser.add_argument("TEMPS", help ="Range of temperatures", type = float, nargs='+')
+parser.add_argument("VAS", help ="Voltages on CH1 Tension", type = float, nargs='+')
+parser.add_argument("VBS", help ="Zeroes on CH2 Compression", type = float, nargs='+')
+parser.add_argument("FIELD", help ="Max field, min field, ramping rate", type = float, nargs=3)
+parser.add_argument("QD_FILES", help ="Path to folder", type=str)
 
-TEMPS = [30, 10, 5, 2] # Just one temp, 30K
-VAS   = np.array([0, 50, 100, 150, 175]) # Voltages on CH1 Tension
-VBS   = np.array([25, 25, 25, 25, 25])    # Zeros on CH2 Compression
-FIELD = (-90_000, 90_000, 50)  # -9T to 9T at 50 Oe/sec?
+args = parser.parse_args()
 
-#QD_FILES = r"C:/Users/sysadmin/Desktop/Razorbill-WilsonGroup/Sarah/"
-QD_FILES = r"C:/Users/dynacool2 user/Desktop/Razorbill-WilsonGroup/Sarah/"
-QD_FILE = max(glob.glob(QD_FILES+"*.dat"), key=os.path.getctime)
+QD_FILE = max(glob.glob(args.QD_FILES+"*.dat"), key=os.path.getctime)
 print("Using File:", QD_FILE)
+
+VAS = np.array(args.VAS)
+VBS = np.array(args.VBS)
 
 assert len(VAS) == len(VBS)
 
@@ -162,7 +167,7 @@ andy = Andy(rm)
 
 
 @dataclass
-class Measurment:
+class Measurement:
     temp: float
     voltages: tuple[float, float]
     field: float
@@ -176,18 +181,18 @@ measurments = []
 sparky.ch1_ramp(0)
 sparky.ch2_ramp(25)
 qd.zero_field()
-qd.wait_temp(TEMPS[0])
+qd.wait_temp(args.TEMPS[0])
 
 #measure for each condition
 for va, vb in zip(VAS, VBS):
     sparky.ch1_ramp(va)
     sparky.ch2_ramp(vb)
     
-    for temp in TEMPS:
+    for temp in args.TEMPS:
         qd.zero_field()
         qd.wait_temp(temp)
         pickle.dump((measurments, open(QD_FILE, "r").read()) , open("backup-{:f}.pkl".format(time.time()), "wb"))
-        qd.ramp_field(*FIELD)
+        qd.ramp_field(*args.FIELD)
         
         while not qd.ramp_complete():
             lines = open(QD_FILE, 'r').readlines()
