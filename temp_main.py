@@ -12,6 +12,7 @@ from pyvisa import ResourceManager
 
 parser = argparse.ArgumentParser()
 
+parser.add_argument("TRANSITION_TEMP", help ="Transition temperature", type = float)          # Warm to this with zero field, zero voltage
 parser.add_argument("FIELDS", help ="Range of Fields", type = float, nargs='+')
 parser.add_argument("VAS", help ="Voltages on CH1 Tension", type = float, nargs='+')
 parser.add_argument("VBS", help ="Zeroes on CH2 Compression", type = float, nargs='+')
