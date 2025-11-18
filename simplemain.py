@@ -19,8 +19,6 @@ parser.add_argument("VBS", help ="Zeroes on CH2 Compression", type = float, narg
 parser.add_argument("FIELD", help ="Max field, min field, ramping rate", type = float, nargs=3)
 parser.add_argument("QD_FILES", help ="Path to folder", type=str)
 
-args = parser.parse_args()
-
 QD_FILE = max(glob.glob(args.QD_FILES+"*.dat"), key=os.path.getctime)
 print("Using File:", QD_FILE)
 
